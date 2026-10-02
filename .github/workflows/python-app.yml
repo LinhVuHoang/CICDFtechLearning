@@ -1,0 +1,72 @@
+# This workflow will install Python dependencies, run tests and lint with a single version of Python
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python
+
+name: Python application
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up Python 3.10
+      uses: actions/setup-python@v3
+      with:
+        python-version: "3.10"
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install flake8 pytest
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+    - name: Start API
+      run: |
+        #Start Fast API
+        uvicorn app:app > app.log 2>&1 &
+
+    - name: Wait for API
+      run: |
+        # Wait for API to be ready
+        for i in {1..30}; do
+          if curl -f http://127.0.0.1:8000/docs > dev/null 2>&1; then
+            echo "API is ready"
+            break
+          fi
+          echo "Waiting for API ..."
+          sleep 1
+        done
+    - name: Test API
+      run: |
+        response=$(curl -s -o response.json -w "%{http_code}" \
+          -X POST http://127.0.0.1:8000/ \
+          -H "Content-Type: application/x-www-form-urlencoded" \
+          -d "gender=male&race_ethnicity=group%20A&parental_level_of_education=master%27s%20degree&lunch=standard&test_preparation_course=completed&reading_score=77&writing_score=78")
+    
+        echo "HTTP status: $response"
+    
+        if [ "$response" != "200" ]; then
+          echo "API test failed"
+          cat response.json
+          exit 1
+        fi
+    
+        echo "API test passed"
+        cat response.json
+    - name: Lint with flake8
+      run: |
+        # stop the build if there are Python syntax errors or undefined names
+        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+        # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
+        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+    - name: Test with pytest
+      run: |
+        pytest
