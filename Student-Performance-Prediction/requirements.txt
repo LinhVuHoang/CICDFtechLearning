@@ -1,6 +1,7 @@
 pandas
 numpy
 uvicorn
+fastapi
 seaborn
 matplotlib
 scikit-learn
