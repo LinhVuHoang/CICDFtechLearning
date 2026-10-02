@@ -48,10 +48,12 @@ async def predict_datapoint(
     if result >100:
         result = 100
     return templates.TemplateResponse(
-            "home.html",
-            {
-                "request": request, "results": result
-            }
+        request=request,
+        name="home.html",
+        context={
+            "request": request,
+            "results": result
+        }
         )
     
 if __name__ == "__main__": 
