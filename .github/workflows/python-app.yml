@@ -60,10 +60,11 @@ jobs:
           -d "gender=male&race_ethnicity=group%20A&parental_level_of_education=master%27s%20degree&lunch=standard&test_preparation_course=completed&reading_score=77&writing_score=78")
     
         echo "HTTP status: $response"
-    
+
         if [ "$response" != "200" ]; then
           echo "API test failed"
           cat response.json
+          cat app.log
           exit 1
         fi
     
