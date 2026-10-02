@@ -44,6 +44,10 @@ jobs:
           echo "Waiting for API ..."
           sleep 1
         done
+        echo "API Failed to start"
+        echo "===== API LOG ====="
+        cat app.log
+        exit 1
     - name: Test API
       run: |
         response=$(curl -s -o response.json -w "%{http_code}" \
