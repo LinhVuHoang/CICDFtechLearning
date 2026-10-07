@@ -13,7 +13,7 @@ app.mount(
 
 templates = Jinja2Templates(directory='templates')
 
-@app.get("/",response_class=HTMLResponse)
+@app.get("/")
 async def home(request:Request):
     return {"message": "Student Performance Prediction API is running"}
 @app.post("/",response_class=HTMLResponse)
