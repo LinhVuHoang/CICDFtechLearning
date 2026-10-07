@@ -18,7 +18,7 @@ defaults:
 
 jobs:
   build:
-
+    if: "!contains(github.event.head_commit.message, 'Update image to')"
     runs-on: ubuntu-latest
 
     steps:
@@ -96,9 +96,9 @@ jobs:
           docker push \
             ${{ secrets.DOCKERHUB_USERNAME }}/student-performance-prediction:${{ github.sha }}
 
-    - name: Update Kubernetes Deployment
+    - name: Update Kubernetes Rollout
       run: |
-          sed -i "s|image: .*student-performance-prediction:.*|image: ${{ secrets.DOCKERHUB_USERNAME }}/student-performance-prediction:${{ github.sha }}1|" k8s/deployment.yaml
+          sed -i "s|image: .*student-performance-prediction:.*|image: ${{ secrets.DOCKERHUB_USERNAME }}/student-performance-prediction:${{ github.sha }}|" k8s/deployment.yaml
 
     - name: Commit and push manifest
       run: |
