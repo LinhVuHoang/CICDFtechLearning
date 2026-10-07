@@ -1,0 +1,7 @@
+# apiVersion: argoproj.io/v1alpha1
+# kind: AnalysisTemplate
+
+# metadata:
+#   name: student-performance-health-check
+#   spec:
+  
