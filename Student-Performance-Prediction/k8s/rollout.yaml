@@ -25,8 +25,8 @@ spec:
 
   strategy:
     canary:
-      stableService = student-performance-service
-      canaryService = student-performance-canary
+      stableService: student-performance-service
+      canaryService: student-performance-canary
 
       steps:
         - setWeight: 20
