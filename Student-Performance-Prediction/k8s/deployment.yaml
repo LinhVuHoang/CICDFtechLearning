@@ -1,19 +1,31 @@
-apiVersion: apps/v1
+apiVersion: argoproj.io/v1alpha1
 kind: Rollout
+
 metadata:
   name: student-performance
+
 spec:
   replicas: 1
+
   selector:
     matchLabels:
       app: student-performance
+
   template:
     metadata:
       labels:
         app: student-performance
+
     spec:
       containers:
         - name: student-performance
-          image: xenolinhhv/student-performance-prediction:c736869361a76eabad7986fca6d44987c3ae019d
+
+          image: xenolinhhv/student-performance-prediction:2091201846a1d84418c585be91de0f3dbcd98f2f1
+
           ports:
             - containerPort: 8000
+
+  strategy:
+    canary:
+      steps:
+        - setWeight: 100
