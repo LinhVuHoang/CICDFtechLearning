@@ -20,6 +20,7 @@ spec:
       containers:
         - name: student-performance
 
+
           image: xenolinhhv/student-performance-prediction:2091201846a1d84418c585be91de0f3dbcd98f2f1
 
           ports:
