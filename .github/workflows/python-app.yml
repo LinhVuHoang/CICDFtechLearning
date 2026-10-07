@@ -98,7 +98,7 @@ jobs:
 
     - name: Update Kubernetes Deployment
       run: |
-          sed -i "s|image: .*student-performance-prediction:.*|image: ${{ secrets.DOCKERHUB_USERNAME }}/student-performance-prediction:${{ github.sha }}|" k8s/deployment.yaml
+          sed -i "s|image: .*student-performance-prediction:.*|image: ${{ secrets.DOCKERHUB_USERNAME }}/student-performance-prediction:${{ github.sha }}1|" k8s/deployment.yaml
 
     - name: Commit and push manifest
       run: |
