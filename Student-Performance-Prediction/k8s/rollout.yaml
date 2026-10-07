@@ -25,11 +25,18 @@ spec:
 
   strategy:
     canary:
+      stableService = student-performance-service
+      canaryService = student-performance-canary
+
       steps:
         - setWeight: 20
-        - pause:
-            duration: 30s
+        - analysis:
+            templates:
+              - name: student-performance-health-check
+
         - setWeight: 50
-        - pause:
-            duration: 30s
+        - analysis:
+          templates:
+            - templateName: student-performance-health-check
+
         - setWeight: 100

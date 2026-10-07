@@ -1,7 +1,15 @@
-# apiVersion: argoproj.io/v1alpha1
-# kind: AnalysisTemplate
+apiVersion: argoproj.io/v1alpha1
+kind: AnalysisTemplate
 
-# metadata:
-#   name: student-performance-health-check
-#   spec:
-  
+metadata:
+  name: student-performance-health-check
+
+spec:
+  metrics:
+    - name: health-check
+      provider:
+        web:
+          url: http://student-performance-canary:8000/health
+      successCondition: result.status == 200
+      failureLimit: 1
+      interval: 10s
