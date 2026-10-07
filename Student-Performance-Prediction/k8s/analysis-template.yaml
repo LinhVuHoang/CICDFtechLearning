@@ -8,6 +8,6 @@ spec:
       count: 1
       provider:
         web:
-          url: http://student-performance-canary:8000/health
+          url: http://student-performance-canary.default.svc.cluster.local:8000/health
       successCondition: result.status == 200
       failureLimit: 1
