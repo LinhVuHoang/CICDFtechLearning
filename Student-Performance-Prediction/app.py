@@ -15,10 +15,7 @@ templates = Jinja2Templates(directory='templates')
 
 @app.get("/",response_class=HTMLResponse)
 async def home(request:Request):
-    return templates.TemplateResponse(
-        'home.html',
-        {"request":request}
-    )
+    return {"message": "Student Performance Prediction API is running"}
 @app.post("/",response_class=HTMLResponse)
 async def predict_datapoint(
     request:Request,
