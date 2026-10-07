@@ -30,13 +30,15 @@ spec:
 
       steps:
         - setWeight: 20
+
         - analysis:
             templates:
-              - name: student-performance-health-check
+              - templateName: student-performance-health-check
 
         - setWeight: 50
+
         - analysis:
-          templates:
-            - templateName: student-performance-health-check
+            templates:
+              - templateName: student-performance-health-check
 
         - setWeight: 100
