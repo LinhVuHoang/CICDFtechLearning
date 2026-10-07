@@ -19,14 +19,17 @@ spec:
     spec:
       containers:
         - name: student-performance
-
-
-          image: xenolinhhv/student-performance-prediction:894003d4ab25e980b63ccc0a30628462daaceb9f
-
+          image: xenolinhhv/student-performance-prediction:YOUR_IMAGE_TAG
           ports:
             - containerPort: 8000
 
   strategy:
     canary:
       steps:
+        - setWeight: 20
+        - pause:
+            duration: 30s
+        - setWeight: 50
+        - pause:
+            duration: 30s
         - setWeight: 100
