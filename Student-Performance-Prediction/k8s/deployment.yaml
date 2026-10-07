@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: student-performance
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: student-performance
+  template:
+    metadata:
+      labels:
+        app: student-performance
+    spec:
+      containers:
+        - name: student-performance
+          image: xenolinhhv/student-performance-prediction:1d1814110d49051585a24200ee4c792ba9e24127
+          ports:
+            - containerPort: 8000
