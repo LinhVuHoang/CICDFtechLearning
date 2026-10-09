@@ -1,9 +1,10 @@
-from fastapi import FastAPI, Request, Form
+from fastapi import FastAPI, Request, Form, HTTPException
+import hashlib
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 from src.pipeline.Prediction_pipeline import CustomData, PredictPipeline
-
+import os
 app = FastAPI()
 app.mount(
     "/static",
@@ -11,6 +12,7 @@ app.mount(
     name='static'
 )
 
+SECRET_KEY = os.getenv("SECRET_KEY")
 templates = Jinja2Templates(directory='templates')
 
 @app.get("/")
@@ -21,6 +23,24 @@ async def health():
     return {
         "status": "healthy"
     }
+    
+@app.get("/secure")
+def secure_api():
+    if not SECRET_KEY:
+        raise HTTPException(
+            status_code=500,
+            detail="SECRET_KEY is not configured"
+        )
+
+    signature = hashlib.sha256(
+        SECRET_KEY.encode()
+    ).hexdigest()
+
+    return {
+        "message": "Secret is working",
+        "signature": signature
+    }
+
 @app.post("/",response_class=HTMLResponse)
 async def predict_datapoint(
     request:Request,

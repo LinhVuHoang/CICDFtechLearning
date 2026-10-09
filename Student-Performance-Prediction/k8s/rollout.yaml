@@ -22,6 +22,12 @@ spec:
           image: xenolinhhv/student-performance-prediction:ff44d109f666a7862d5365240c64a39ef3a43f78
           ports:
             - containerPort: 8000
+          env:
+            - name: SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: student-performance-secret
+                  key: SECRET_KEY
 
   strategy:
     canary:
